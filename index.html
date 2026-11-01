@@ -353,7 +353,7 @@
             color: #1e293b;
         }
 
-        /* 曝光指引專用卡片 */
+        /* 曝光指引卡片 */
         .exposure-guide-card {
             margin-top: 16px;
             background: #f1f5f9;
@@ -371,6 +371,73 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        /* 可折疊外業 SOP 檢核卡片 */
+        .checklist-details {
+            margin-top: 18px;
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+        }
+        .checklist-summary {
+            padding: 14px 18px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #1e293b;
+            cursor: pointer;
+            background: #f8fafc;
+            border-bottom: 1px solid transparent;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        .checklist-summary:hover {
+            background: #f1f5f9;
+        }
+        .checklist-details[open] .checklist-summary {
+            border-bottom-color: #e2e8f0;
+            background: #f1f5f9;
+        }
+        .checklist-summary-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .summary-arrow {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.2s ease;
+            fill: #64748b;
+        }
+        .checklist-details[open] .summary-arrow {
+            transform: rotate(180deg);
+        }
+        .checklist-content {
+            padding: 16px 20px;
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: #334155;
+        }
+        .sop-section-title {
+            font-weight: 700;
+            color: #0d47a1;
+            margin: 12px 0 6px 0;
+            font-size: 14px;
+        }
+        .sop-section-title:first-child {
+            margin-top: 0;
+        }
+        .sop-item {
+            margin-bottom: 6px;
+            padding-left: 4px;
+        }
+        .sop-item strong {
+            color: #1e293b;
         }
 
         @media (max-width: 600px) {
@@ -397,6 +464,7 @@
                 padding: 6px 0;
             }
             .result-value { margin-top: 3px; }
+            .checklist-content { padding: 12px 14px; }
         }
     </style>
 </head>
@@ -483,7 +551,7 @@
                 </label>
                 <label class="terrain-radio-label">
                     <input type="radio" name="terrain-slope" value="moderate">
-                    中緩坡 ≤ 35° (鎖定 24 km/h)
+                    中緩坡 ≤ 35° (鎖定 22 km/h)
                 </label>
                 <label class="terrain-radio-label">
                     <input type="radio" name="terrain-slope" value="steep">
@@ -498,7 +566,7 @@
         <div>
             <label for="speed" id="speed-label">預計飛行航速 (上限 ≤ 32.0 km/h)</label>
             <div class="input-group">
-                <input type="number" id="speed" step="0.5" min="0.1" max="32.0" value="27.0" inputmode="decimal">
+                <input type="number" id="speed" step="0.5" min="0.1" max="32.0" value="25.0" inputmode="decimal">
                 <select id="speed-unit" class="unit-select">
                     <option value="kmh">km/h</option>
                     <option value="mps">m/s</option>
@@ -547,6 +615,46 @@
         • <strong>快門 (Shutter)：</strong>主控參數。晴朗強光時標準維持 <strong>≥ 1/1600 秒</strong>；遇雲遮陰暗時可依序降至 <strong>1/1400 ~ 1/1000 秒</strong> (安全底線 ≥ 1/500 秒)。<br>
         • <strong>ISO 感光度：</strong>基準固定 <strong>ISO 100</strong>。僅在快門已降至 1/1000 秒畫面依然曝光不足時，才適度放寬至 <strong>ISO 200 ~ 400</strong>。
     </div>
+
+    <!-- 可折疊：外業航測操作 SOP 檢核清單 -->
+    <details class="checklist-details">
+        <summary class="checklist-summary">
+            <span class="checklist-summary-title">
+                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                外業航測標準操作檢核 SOP 清單
+            </span>
+            <svg class="summary-arrow" viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+        </summary>
+        <div class="checklist-content">
+            <div class="sop-section-title">階段一：出發前整備與離線快取確認</div>
+            <div class="sop-item">☑ <strong>離線架構檢查：</strong>確認本網頁已啟用快取（上方狀態列顯示本地運算無網路依賴）。</div>
+            <div class="sop-item">☑ <strong>記憶卡規格：</strong>確認使用 U3 / V30 / A2 等級 MicroSD 卡，確保寫入速率大於 30MB/s。</div>
+            <div class="sop-item">☑ <strong>機身格式化：</strong>記憶卡插入 EVO II Pro 後，透過 Smart Controller 執行內部格式化，清空碎片快取。</div>
+
+            <div class="sop-section-title">階段二：Smart Controller 航點任務規劃與比對</div>
+            <div class="sop-item">☑ <strong>核對定距拍攝 (Trigger Distance)：</strong>依看板數值設定前向間距（例如 200m 高度時為 30m）。</div>
+            <div class="sop-item">☑ <strong>巡航速限設定 (Cruise Speed)：</strong>任務速度切勿超過看板深紅色建議速限（平緩 ≤ 25 km/h、中坡 ≤ 22 km/h、陡壁 ≤ 18 km/h）。</div>
+            <div class="sop-item">☑ <strong>儲存格式確認：</strong>相機拍照模式必須設為「純 JPG」（嚴禁使用 RAW+JPG，否則 1.5s 寫入必漏拍）。</div>
+
+            <div class="sop-section-title">階段三：相機 M 模式曝光參數鎖定 (起飛前)</div>
+            <div class="sop-item">☑ <strong>光圈鎖定 f/4.0：</strong>手動切至 M 模式固定於最佳銳度 f/4.0，航程中嚴禁變動光圈。</div>
+            <div class="sop-item">☑ <strong>快門速度設定：</strong>日光良好時設為 ≥ 1/1600 秒；陰暗或背光面最低容許降至 1/1000 ~ 1/800 秒。</div>
+            <div class="sop-item">☑ <strong>ISO 固定 100：</strong>基準鎖定 ISO 100；僅在快門降至 1/800 秒仍欠曝時放寬至 ISO 200 ~ 400。</div>
+            <div class="sop-item">☑ <strong>白平衡鎖定：</strong>自訂設定為晴天（約 5500K）或陰天（約 6500K），禁用 AWB 自動白平衡。</div>
+
+            <div class="sop-section-title">階段四：第一測線實飛抽檢 (防漏拍驗證)</div>
+            <div class="sop-item">☑ <strong>計數器遞增確認：</strong>切換至相機圖傳畫面，觀察相片編號是否隨每隔指定觸發間距穩定遞增 (+1)。</div>
+            <div class="sop-item">☑ <strong>順風航段注意：</strong>若遇強烈順風導致實際地速被推升，隨時在遙控器將巡航速限適度下調 10%~15%。</div>
+
+            <div class="sop-section-title">階段五：降落換電即時驗收</div>
+            <div class="sop-item">☑ <strong>相機回放檢視：</strong>降落關機前，隨機抽檢最後拍攝之 3~5 張照片，放大確認無殘影與果凍模糊。</div>
+            <div class="sop-item">☑ <strong>張數精確比對：</strong>比對遙控器預估張數與記憶卡實際產出張數，確認誤差在航線轉彎合理範圍（±5 張）。</div>
+            <div class="sop-item">☑ <strong>一鍵複製備存：</strong>點擊看板「複製摘要」，將當次任務幾何與參數文字貼至作業日誌或工作群組存查。</div>
+
+            <div class="sop-section-title">內業空三後處理提醒 (Pix4D / Metashape)</div>
+            <div class="sop-item">☑ <strong>勾選卷簾快門補償：</strong>空三計算（Align Photos / Initial Processing）必須啟用 Rolling Shutter Compensation，消除位移畸變以確保高程成果精確。</div>
+        </div>
+    </details>
 </div>
 
 <script>
@@ -559,27 +667,27 @@
     // 硬體儲存與動力限制常數
     const HARDWARE_MIN_LIMIT = 1.0;           // 秒 (相機純 JPG 極限值，小於此值必漏存)
     const SAFE_INTERVAL = 1.5;                // 秒 (相機連拍連續寫入安全門檻)
-    const DRONE_SPEED_LIMIT_KMH = 32.0;       // km/h (平地最高上限)
+    const DRONE_SPEED_LIMIT_KMH = 32.0;       // km/h (平地最高上限，對應遙控器合法整數 9 m/s)
     const DRONE_SPEED_LIMIT_MPS = 32.0 / 3.6; // 約 8.889 m/s
 
-    // 地形分級速限常數
-    const MODERATE_SLOPE_MAX_SPEED_MPS = 24.0 / 3.6; // 6.67 m/s (24 km/h)
-    const STEEP_SLOPE_MAX_SPEED_MPS = 18.0 / 3.6;    // 5.0 m/s (18 km/h)
+    // 地形分級速限常數 (契合遙控器合法整數刻度)
+    const MODERATE_SLOPE_MAX_SPEED_MPS = 22.0 / 3.6; // 6.11 m/s -> 對應遙控器 6 m/s (22 km/h)
+    const STEEP_SLOPE_MAX_SPEED_MPS = 18.0 / 3.6;    // 5.00 m/s -> 對應遙控器 5 m/s (18 km/h)
 
-    // 預設基準值 (200m / 85% / 70% / 27.0 km/h)
+    // 預設基準值 (200m / 85% / 70% / 25.0 km/h)
     const DEFAULTS = {
         height: 200,
         frontalOverlap: 85,
         sideOverlap: 70,
         terrainSlope: 'flat',
-        speed: 27.0,
+        speed: 25.0, // 對應遙控器合法整數 7 m/s (25 km/h)
         speedUnit: 'kmh'
     };
 
     let activeInputSource = 'speed';
     let currentSpeedUnit = 'kmh'; 
     let missionSummaryData = {};
-    let savedNormalSpeed = 27.0; // 暫存平地模式下使用者自訂航速
+    let savedNormalSpeed = 25.0; // 暫存平地模式下使用者自訂航速
 
     function resetToDefaults() {
         document.getElementById('height').value = DEFAULTS.height;
@@ -729,13 +837,13 @@
                 slopeTips.push("崩塌陡坡地形投影會衰減實際有效重疊，強烈建議航向重疊提高至 ≥ 85%、旁向重疊 ≥ 75%。");
             }
             if (terrainSlope === 'moderate') {
-                slopeTips.push("<strong>[中緩坡速限鎖定]</strong> 適用坡度 ≤ 35° 堆積緩坡，航速鎖定為 <strong>24.0 km/h (6.7 m/s)</strong>，兼顧爬升動力與高覆蓋效率。");
+                slopeTips.push("<strong>[中緩坡速限鎖定]</strong> 適用坡度 ≤ 35° 堆積緩坡，航速鎖定為 <strong>22.0 km/h (6.1 m/s，對應遙控器 6 m/s)</strong>，兼顧爬升動力與覆蓋效率。");
                 terrainNote.style.display = 'block';
-                terrainNote.innerHTML = `<strong>中緩坡仿地模式 (≤ 35°)：</strong>航速已鎖定為 24.0 km/h (6.7 m/s)，確保爬升餘裕。`;
+                terrainNote.innerHTML = `<strong>中緩坡仿地模式 (≤ 35°)：</strong>航速已鎖定為 22.0 km/h (6 m/s 檔位)，確保爬升餘裕。`;
             } else if (terrainSlope === 'steep') {
-                slopeTips.push("<strong>[陡峭崩壁速限鎖定]</strong> 適用坡度 > 40° 主崩壁或順向坡，航速強制鎖定為 <strong>18.0 km/h (5.0 m/s)</strong>，防止仿地爬升滯後貼地。");
+                slopeTips.push("<strong>[陡峭崩壁速限鎖定]</strong> 適用坡度 > 40° 主崩壁或順向坡，航速強制鎖定為 <strong>18.0 km/h (5.0 m/s，對應遙控器 5 m/s)</strong>，防止仿地爬升滯後貼地。");
                 terrainNote.style.display = 'block';
-                terrainNote.innerHTML = `<strong>陡峭崩壁模式 (> 40°)：</strong>航速已強制鎖定為 18.0 km/h (5.0 m/s)，避免垂直爬升滯後造成碰撞或重疊失真。`;
+                terrainNote.innerHTML = `<strong>陡峭崩壁模式 (> 40°)：</strong>航速已強制鎖定為 18.0 km/h (5 m/s 檔位)，避免垂直爬升滯後造成碰撞或重疊失真。`;
             }
             alertMessages.push(`<div style="margin-top:4px; border-top: 1px dashed rgba(0,0,0,0.15); padding-top:4px;">${slopeTips.join('<br>')}</div>`);
         } else {
@@ -768,8 +876,8 @@
 
         // 保存供外業摘要複製
         let terrainSummaryText = "平緩／台地 (未鎖定)";
-        if (terrainSlope === 'moderate') terrainSummaryText = "中緩坡 ≤ 35° (鎖定 24.0 km/h)";
-        if (terrainSlope === 'steep') terrainSummaryText = "陡峭崩壁 > 40° (鎖定 18.0 km/h)";
+        if (terrainSlope === 'moderate') terrainSummaryText = "中緩坡 ≤ 35° (鎖定 22.0 km/h / 6 m/s)";
+        if (terrainSlope === 'steep') terrainSummaryText = "陡峭崩壁 > 40° (鎖定 18.0 km/h / 5 m/s)";
 
         missionSummaryData = {
             height: height,
@@ -837,25 +945,25 @@
                 speedLabel.innerText = "預計飛行航速 (上限 ≤ 32.0 km/h)";
             } else if (slopeVal === 'moderate') {
                 if (!speedInput.disabled) {
-                    savedNormalSpeed = parseFloat(speedInput.value) || 27.0;
+                    savedNormalSpeed = parseFloat(speedInput.value) || 25.0;
                 }
                 const targetMps = MODERATE_SLOPE_MAX_SPEED_MPS;
                 speedInput.value = (currentSpeedUnit === 'kmh') ? (targetMps * 3.6).toFixed(1) : targetMps.toFixed(1);
                 speedInput.disabled = true;
                 speedUnitSelect.disabled = true;
                 intervalInput.disabled = true;
-                speedLabel.innerText = "預計飛行航速 [中緩坡已鎖定 24.0 km/h]";
+                speedLabel.innerText = "預計飛行航速 [中緩坡已鎖定 22.0 km/h (6 m/s)]";
                 activeInputSource = 'speed';
             } else if (slopeVal === 'steep') {
                 if (!speedInput.disabled) {
-                    savedNormalSpeed = parseFloat(speedInput.value) || 27.0;
+                    savedNormalSpeed = parseFloat(speedInput.value) || 25.0;
                 }
                 const targetMps = STEEP_SLOPE_MAX_SPEED_MPS;
                 speedInput.value = (currentSpeedUnit === 'kmh') ? (targetMps * 3.6).toFixed(1) : targetMps.toFixed(1);
                 speedInput.disabled = true;
                 speedUnitSelect.disabled = true;
                 intervalInput.disabled = true;
-                speedLabel.innerText = "預計飛行航速 [陡壁已鎖定 18.0 km/h]";
+                speedLabel.innerText = "預計飛行航速 [陡壁已鎖定 18.0 km/h (5 m/s)]";
                 activeInputSource = 'speed';
             }
             calculate();
